@@ -30,8 +30,6 @@ WHERE data_urodzenia = (
     FROM pracownik
 )) AS id);
 
-
-
 DROP TABLE pracownik;
 DROP TABLE stanowisko;
 DROP TABLE adres;
@@ -48,7 +46,7 @@ CREATE TABLE adres (
     numer_domu VARCHAR(5),
     numer_mieszkania VARCHAR(5),
     miejscowosc VARCHAR(100),
-    kod_pocztowy VARCHAR(5)
+    kod_pocztowy VARCHAR(6)
 );
 
 CREATE TABLE pracownik (
@@ -62,9 +60,9 @@ CREATE TABLE pracownik (
 );
 
 INSERT INTO adres(ulica, numer_domu, numer_mieszkania, miejscowosc, kod_pocztowy)
-VALUES ('Jana Matejki',1,2,'Wroclaw',54-062),
-('Jana Paska',2,1,'Wloclawek',11-111),
-('Jana Sedzimira',2,3,'Warszawa',12-222);
+VALUES ('Jana Matejki',1,2,'Wroclaw','54-062'),
+('Jana Paska',2,1,'Wloclawek','11-111'),
+('Jana Sedzimira',2,3,'Warszawa','12-222');
 
 INSERT INTO stanowisko(nazwa, wyplata)
 VALUES ('Junior DEV',5000),
@@ -76,5 +74,10 @@ VALUES (1,1,'Piotr','Skarga'),
 (2,2,'Jan','Kowalski'),
 (3,3,'Kamil','Gruszka');
 
-SELECT * FROM pracownik,adres,stanowisko WHERE pracownik.stanowisko_id=stanowisko.id AND pracownik.adres_id=adres.id;
+SELECT * FROM pracownik,adres WHERE pracownik.stanowisko_id=stanowisko.id AND pracownik.adres_id=adres.id;
 
+SELECT * FROM pracownik,adres WHERE adres.kod_pocztowy='11-111'; AND pracownik.adres_id=adres.id;
+
+#suma wyplat do zrobienia jeszcze
+
+SELECT * FROM pracownik,adres WHERE adres.kod_pocztowy='11-111' AND pracownik.adres_id=adres.id;
