@@ -15,13 +15,13 @@ VALUES ('Jan','Kowalski',5000,'1994-02-19','Helpdesk Operator'),
 ('Grzegorz','Wejna',22000,'1982-09-19','JAVA Developer'),
 ('Kamil','Gruszka',35000,'1991-11-12','Solidity Developer');
 
-SELECT * FROM pracownik ORDER BY(nazwisko);
+SELECT * FROM pracownik ORDER BY nazwisko;
 
 SELECT * FROM pracownik WHERE stanowisko='COBOL Developer';
 
-SELECT * FROM pracownik WHERE data_urodzenia <= 1991-01-01;
+SELECT * FROM pracownik WHERE YEAR(data_urodzenia) <=  YEAR(CURDATE() - INTERVAL 30 YEAR);
 
-UPDATE pracownik SET wyplata= wyplata + (wyplata * 10 / 100);
+UPDATE pracownik SET wyplata = 1.1 * wyplata;
 
 DELETE FROM pracownik WHERE  pracownik.id =  (SELECT id FROM (SELECT id, data_urodzenia
 FROM pracownik
@@ -35,13 +35,13 @@ DROP TABLE stanowisko;
 DROP TABLE adres;
 
 CREATE TABLE stanowisko (
-	id bigint  primary key auto_increment UNIQUE NOT NULL,
+	id bigint  primary key auto_increment,
     nazwa VARCHAR(30),
     wyplata DECIMAL
 );
 
 CREATE TABLE adres (
-	id bigint primary key auto_increment UNIQUE NOT NULL,
+	id bigint primary key auto_increment,
     ulica VARCHAR(70),
     numer_domu VARCHAR(5),
     numer_mieszkania VARCHAR(5),
@@ -50,7 +50,7 @@ CREATE TABLE adres (
 );
 
 CREATE TABLE pracownik (
-	id BIGINT  primary key auto_increment UNIQUE NOT NULL,
+	id BIGINT  primary key auto_increment,
 	adres_id BIGINT UNIQUE NOT NULL,
 	stanowisko_id BIGINT UNIQUE NOT NULL,
     imie VARCHAR(30),
@@ -74,10 +74,10 @@ VALUES (1,1,'Piotr','Skarga'),
 (2,2,'Jan','Kowalski'),
 (3,3,'Kamil','Gruszka');
 
-SELECT * FROM pracownik,adres WHERE pracownik.stanowisko_id=stanowisko.id AND pracownik.adres_id=adres.id;
+SELECT * FROM pracownik,adres,stanowisko WHERE pracownik.stanowisko_id=stanowisko.id AND pracownik.adres_id=adres.id;
 
 SELECT * FROM pracownik,adres WHERE adres.kod_pocztowy='11-111'; AND pracownik.adres_id=adres.id;
 
-#suma wyplat do zrobienia jeszcze
+SELECT SUM(wyplata) FROM stanowisko,pracownik WHERE pracownik.stanowisko_id=stanowisko.id;
 
-SELECT * FROM pracownik,adres WHERE adres.kod_pocztowy='11-111' AND pracownik.adres_id=adres.id;
+SELECT * FROM pracownik,adres WHERE pracownik.adres_id=adres.id AND adres.kod_pocztowy='11-111';
